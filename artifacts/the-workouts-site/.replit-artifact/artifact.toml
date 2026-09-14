@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "THE WORKOUTS Website"
+description = "A responsive, static marketing website for THE WORKOUTS gym in Islamabad, built around the gym's real photography, verified business details, and a dark industrial-premium visual direction."
+version = "1.0.0"
+id = "artifacts/the-workouts-site"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19850
+
+[services.development]
+run = "pnpm --filter @workspace/the-workouts-site run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/the-workouts-site", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/the-workouts-site/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19850"
+BASE_PATH = "/"

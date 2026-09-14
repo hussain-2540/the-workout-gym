@@ -1,0 +1,55 @@
+# THE WORKOUTS — Fix & Polish Pass (v2)
+
+## 0. Scope
+This is a targeted fix pass on the EXISTING THE WORKOUTS site you already built (index, about, facilities, membership, contact). Do not rebuild any page from scratch and do not touch anything not listed below. Same constraints as before: HTML5 + CSS3 + vanilla JS only, no frameworks, no build step, project files stay at the root.
+
+## 1. Fix: WhatsApp links (audit, don't just add)
+WhatsApp-labeled buttons already exist in several places — confirm every one actually works:
+- Every button/link that says "WhatsApp," "Ask About [X]," or similar must have a real `href="https://wa.me/923185149468?text=..."` — not `#`, not empty, not plain unlinked text.
+- Give each its own pre-filled message via the URL-encoded `text=` param, specific to where it sits:
+  - Hero "WhatsApp Us" → "Hi, I found THE WORKOUTS website and have a question."
+  - "Ask About Regular" → "Hi, I'd like to ask about the Regular Membership at THE WORKOUTS G-13/2."
+  - "Ask About Student" → "Hi, I'd like to ask about the Student Membership at THE WORKOUTS G-13/2."
+  - "WhatsApp Membership" / footer "WhatsApp" → general membership inquiry text.
+- Convert the "Message on WhatsApp" text on the Contact page into a real button matching the site's button style, not plain text.
+- Confirm the phone CTA uses `tel:+923185149468`.
+
+## 2. Fix: embedded map
+The map card on the Contact page still shows the raw, duplicated address "Street 54, G-13/2 G 13/2 G-13, Islamabad" inside its own preview label — the clean address used elsewhere on that same page didn't propagate into the map component. Fix the map component to use the clean address ("Street 54, G-13/2, Islamabad, 45230, Pakistan"). If the street address alone doesn't resolve to a precise pin, add the Plus Code (MX23+86 Islamabad, Pakistan) as a secondary geocoding anchor. Visually verify the pin lands on the right spot — don't assume it's correct just because it renders without an error.
+
+## 3. Add: real fee structure — G-13/2 branch ONLY
+Real, first-party pricing just came from the gym's own WhatsApp fee-structure post — **for the G-13/2 branch specifically.** THE WORKOUTS also runs a separate G-14/4 "Premium" branch with its own, different, higher pricing. **Never use G-14/4's numbers here — this site is G-13/2 only.**
+
+- **Regular Membership:** PKR 3,000 as the headline recurring price (confirm with the gym whether this is monthly), plus a PKR 1,000 one-time Admission Fee — shown via the new toggle in #5, not both numbers dumped together as one price.
+- **Personal Training:** PKR 13,000 — its own small card/line next to the two membership tiers, not folded into "Regular" as an included feature. It's a distinct paid add-on.
+- **Student Membership:** still no official number for G-13/2 — keep `[STUDENT PACKAGE PRICE]`, add a one-line note: "Ask the team to confirm the current student rate."
+- **Ladies-only hours:** now confirmed as **12:30 PM – 4:30 PM**. Replace every `[LADIES-ONLY HOURS]` placeholder (About, Facilities, Membership page, Membership FAQ) with this. Keep a short "confirm this is still current" note only in the FAQ answer, not everywhere else.
+
+## 4. Add: real email
+Confirmed: **zaincivic23@gmail.com**. Replace every `[EMAIL]` placeholder, including the Contact page form-area text and the footer contact block on all 5 pages (the footer currently has no email row — add one). Link it as `mailto:zaincivic23@gmail.com`. Remove the "email and a live inbox are not confirmed yet" disclaimer on the Contact page — it's confirmed now.
+
+## 5. Add: show/hide toggle on the Regular Membership card
+A `<details>/<summary>` element or a small JS-toggled button — either is fine, no library. Collapsed by default: just the PKR 3,000 headline. Expanded: the PKR 1,000 admission fee and any other line items. Reuse the look of the existing FAQ accordion on the Membership page if it already fits.
+
+## 6. Add: restrained motion (updates, doesn't reverse, the "avoid unnecessary animation" rule from the first brief)
+- A short (400–600ms), one-time fade/slide-up as each section scrolls into view.
+- Smoother hover transitions on cards and buttons (slight lift or brightness shift, 150–250ms).
+- Respect `prefers-reduced-motion: reduce` — skip scroll-reveal for users who have that set.
+- No auto-playing carousels, no parallax fighting scroll, no animated backgrounds — more polish, not more noise.
+
+## 7. Check: visual repetition
+Several sections in a row use the identical pattern (small orange eyebrow label → large two-line bold heading → body paragraph). Vary the layout of at least two sections per page — a full-bleed image break, a shorter centered section, a different heading treatment — without abandoning the existing color system or type scale.
+
+## 8. Check: no blank/broken sections
+Load every page and confirm there's no unintended large empty gap between sections (a possible one between testimonials and membership on the homepage) — fix it if it's a real empty/broken component.
+
+## 9. Final check before reporting done
+- [ ] Every WhatsApp element opens WhatsApp with the correct number and a relevant pre-filled message
+- [ ] The Contact page map shows the clean address and a correctly-placed pin
+- [ ] No G-14/4 "Premium" branch pricing appears anywhere on this site
+- [ ] `[EMAIL]` and the "not confirmed" note are gone, replaced by the real address
+- [ ] Ladies-only hours read 12:30 PM – 4:30 PM everywhere mentioned
+- [ ] Regular Membership card has a working show/hide toggle for the admission fee
+- [ ] Personal Training has its own PKR 13,000 line, separate from Regular Membership
+- [ ] Scroll-reveal and hover motion are present but subtle, and respect reduced-motion settings
+- [ ] Still zero frameworks, zero build step, project root unchanged

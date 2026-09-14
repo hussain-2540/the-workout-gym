@@ -1,0 +1,1 @@
+- [Static site editing](static-site-editing.md) — isolate long page sections before making repeated cross-page edits.
